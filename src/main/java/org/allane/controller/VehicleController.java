@@ -2,12 +2,16 @@ package org.allane.controller;
 
 import org.allane.mapper.VehicleMapper;
 import org.allane.service.VehicleService;
+import org.hibernate.ObjectNotFoundException;
 import org.openapitools.api.VehicleApi;
+import org.openapitools.model.Brand;
 import org.openapitools.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class VehicleController implements VehicleApi {
@@ -25,9 +29,24 @@ public class VehicleController implements VehicleApi {
     }
 
     @Override
-    public ResponseEntity<Vehicle> getVehicleById(Integer id) {
-        return new ResponseEntity<>(
-                mapper.map(service.findVehicleById(id)),
-                HttpStatus.OK);
+    public ResponseEntity getVehicleById(Integer id) {
+        try {
+            return new ResponseEntity<>(
+                    mapper.map(service.findVehicleById(id)),
+                    HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(
+                    e.getLocalizedMessage(),
+                    HttpStatus.NOT_ACCEPTABLE);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(
+                    e.getEntityName(),
+                    HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Brand>> getAllBrandsAndModels() {
+        return new ResponseEntity<>(mapper.map(service.getAllBrandsAndModels()), HttpStatus.OK);
     }
 }

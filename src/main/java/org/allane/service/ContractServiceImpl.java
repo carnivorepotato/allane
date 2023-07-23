@@ -1,8 +1,10 @@
 package org.allane.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.allane.database.dao.ContractDao;
 import org.allane.model.Contract;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,11 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public Contract findContractByNumber(Integer number) {
-        return contractDao.getContractByNumber(number);
+        try {
+            return contractDao.getContractByNumber(number);
+        } catch (EntityNotFoundException e) {
+            throw new ObjectNotFoundException("Could not find contract with number:" + number, number);
+        }
     }
 
     @Override

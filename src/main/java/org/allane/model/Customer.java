@@ -24,6 +24,6 @@ public class Customer {
     @Column(name = "birth_date")
     @Nonnull
     private String birthDate;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer")
     private List<Contract> contracts;
 }

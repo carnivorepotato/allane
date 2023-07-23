@@ -27,7 +27,9 @@ public abstract class ContractMapper {
                 contract.getVehicle().getBrand() + " "
                 + contract.getVehicle().getModel() + " ("
                 + contract.getVehicle().getProductionYear() + ")");
+        result.setYear(contract.getVehicle().getProductionYear());
         result.setVin(contract.getVehicle().getVin());
+        result.setPrice(contract.getVehicle().getPrice());
         return result;
     }
 

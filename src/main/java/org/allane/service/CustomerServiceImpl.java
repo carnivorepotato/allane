@@ -1,8 +1,10 @@
 package org.allane.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.allane.database.dao.CustomerDao;
 import org.allane.model.Customer;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -23,17 +25,21 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer findCustomerById(Integer id) {
-        return customerDao.getCustomerById(id);
+        try {
+            return customerDao.getCustomerById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ObjectNotFoundException("Could not find customer with id:" + id, id);
+        }
     }
 
     private void validateCustomer(Customer customer) {
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         try {
             format.setLenient(false);
             format.parse(customer.getBirthDate());
         } catch (ParseException e) {
             throw new IllegalArgumentException("Date " + customer.getBirthDate() +
-                    " has incorrect format or is not a valid date. Valid date format is 'dd-MM-yyyy'");
+                    " has incorrect format or is not a valid date. Valid date format is 'dd.MM.yyyy'");
         }
     }
 }

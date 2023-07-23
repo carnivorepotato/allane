@@ -19,7 +19,7 @@ public class Contract {
     @ManyToOne
     @JoinColumn(name = "customer")
     private Customer customer;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private Vehicle vehicle;
 }

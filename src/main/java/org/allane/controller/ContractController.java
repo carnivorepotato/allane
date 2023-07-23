@@ -2,6 +2,7 @@ package org.allane.controller;
 
 import org.allane.mapper.ContractMapper;
 import org.allane.service.ContractService;
+import org.hibernate.ObjectNotFoundException;
 import org.openapitools.api.ContractApi;
 import org.openapitools.model.Contract;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,15 @@ public class ContractController implements ContractApi {
     }
 
     @Override
-    public ResponseEntity<Contract> getContractByNumber(Integer contractNumber) {
-        return new ResponseEntity<>(
-                mapper.map(service.findContractByNumber(contractNumber)),
-                HttpStatus.OK);
+    public ResponseEntity getContractByNumber(Integer contractNumber) {
+        try {
+            return new ResponseEntity<>(
+                    mapper.map(service.findContractByNumber(contractNumber)),
+                    HttpStatus.OK);
+        } catch (ObjectNotFoundException e) {
+            return new ResponseEntity<>(
+                    e.getEntityName(),
+                    HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 }

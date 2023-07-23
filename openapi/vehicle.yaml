@@ -42,6 +42,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/vehicle'
+        '406':
+          description: Could not find vehicle with given id
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Error message
   /vehicle/brands:
     get:
       summary: Returns all brands and models.
@@ -52,18 +59,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getBrandsResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/brand'
 components:
   schemas:
-    getBrandsResponse:
-      type: object
-      required:
-        - brands
-      properties:
-        brands:
-          type: array
-          items:
-            $ref: '#/components/schemas/brand'
     vehicle:
       type: object
       required:
@@ -97,5 +97,11 @@ components:
         models:
           type: array
           items:
-            type: string
-            description: Vehicle model.
+            $ref: '#/components/schemas/model'
+    model:
+      type: object
+      description: Vehicle model name.
+      properties:
+        name:
+          type: string
+          description: Vehicle model name.

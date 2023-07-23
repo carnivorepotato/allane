@@ -42,8 +42,9 @@ dependencies {
     implementation "io.swagger.core.v3:swagger-annotations:2.2.15"
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+    implementation 'mysql:mysql-connector-java:8.0.33'
 
-    implementation 'com.h2database:h2:2.1.214'
+//    implementation 'com.h2database:h2:2.1.214'
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     compileOnly 'org.projectlombok:lombok:1.18.26'
