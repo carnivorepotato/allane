@@ -1,0 +1,24 @@
+version: '1.0'
+services:
+  app:
+    depends_on:
+      - mysql
+    build:
+      dockerfile: docker/app/dockerfile
+    container_name: leasing_app
+    networks:
+      - bridge
+    ports:
+      - '8080:8080'
+
+  mysql:
+    build:
+      dockerfile: docker/db/dockerfile
+    container_name: mysql
+    networks:
+      - bridge
+    ports:
+      - '3306:3306'
+
+networks:
+  bridge: {}

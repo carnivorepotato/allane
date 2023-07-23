@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: Allane vehicle leasing contract API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+    description: dev
+paths:
+  /contract/all:
+    get:
+      summary: Retrieve all contracts.
+      operationId: getAllContracts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/contract'
+  /contract:
+    get:
+      summary: Get contract by ID
+      operationId: getContractByNumber
+      parameters:
+        - in: path
+          name: contractNumber
+          schema:
+            type: integer
+          required: true
+          description: Contract number for the contract we need to find
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contract'
+    post:
+      summary: Create new contract
+      operationId: createContract
+      requestBody:
+        description:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/contract'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: New contract ID
+components:
+  schemas:
+    contract:
+      description: A leasing contract
+      type: object
+      properties:
+        contractNumber:
+          type: integer
+        monthlyRate:
+          type: number
+          format: double
+        customerId:
+          type: integer
+        customerName:
+          type: string
+        vehicleId:
+          type: integer
+        vehicleName:
+          type: string
+        year:
+          type: string
+        vin:
+          type: string
+        price:
+          type: number
+          format: double

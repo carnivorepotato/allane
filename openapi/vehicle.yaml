@@ -1,0 +1,101 @@
+openapi: 3.0.1
+info:
+  title: Allane vehicle API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+    description: dev
+paths:
+  /vehicle:
+    post:
+      summary: Creates a new vehicle.
+      operationId: createVehicle
+      requestBody:
+        description:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vehicle'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: New vehicle ID
+    get:
+      summary: Finds a vehicle by ID.
+      operationId: getVehicleById
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of a vehicle we need to find.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vehicle'
+  /vehicle/brands:
+    get:
+      summary: Returns all brands and models.
+      operationId: getAllBrandsAndModels
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getBrandsResponse'
+components:
+  schemas:
+    getBrandsResponse:
+      type: object
+      required:
+        - brands
+      properties:
+        brands:
+          type: array
+          items:
+            $ref: '#/components/schemas/brand'
+    vehicle:
+      type: object
+      required:
+        - brand
+        - model
+        - year
+        - price
+      properties:
+        brand:
+          type: string
+          description: Vehicle's brand.
+        model:
+          type: string
+          description: Vehicle's model.
+        productionYear:
+          type: string
+          description: Vehicle's build year.
+        vin:
+          type: string
+          description: Vehicle's vin.
+        price:
+          type: number
+          format: double
+          description: Vehicle's cost.
+    brand:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Vehicle brand name.
+        models:
+          type: array
+          items:
+            type: string
+            description: Vehicle model.

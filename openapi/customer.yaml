@@ -1,0 +1,71 @@
+openapi: 3.0.1
+info:
+  title: Allane customer API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+    description: dev
+paths:
+  /customer:
+    post:
+      summary: Creates a new customer, if not found in database.
+      operationId: createCustomer
+      requestBody:
+        description:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                description: New customer ID
+        '406':
+          description: Customer validation failed
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Error message
+    get:
+      summary: Find customer by id.
+      operationId: getCustomerById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID of a customer we want to find.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+components:
+  schemas:
+    customer:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - birthDate
+      properties:
+        firstName:
+          type: string
+          description: Customer's first name
+        lastName:
+          type: string
+          description: Customer's last name
+        birthDate:
+          type: string
+          pattern: '^\d{2}-\d{2}-\d{4}$'
+          example: 20.02.2020
+          description: Customer's birth date
