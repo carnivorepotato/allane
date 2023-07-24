@@ -81,8 +81,6 @@ components:
           type: integer
         vehicleName:
           type: string
-        year:
-          type: string
         vin:
           type: string
         price:

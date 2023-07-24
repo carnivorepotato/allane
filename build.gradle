@@ -92,6 +92,10 @@ flyway {
     locations = ['classpath:src/main/resources/db/migration']
 }
 
+test {
+    useJUnitPlatform()
+}
+
 tasks.compileJava.dependsOn('contract', 'vehicle', 'customer')
 tasks.flywayValidate.dependsOn('Main.main()')
 
